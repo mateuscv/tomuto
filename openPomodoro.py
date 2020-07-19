@@ -36,18 +36,26 @@ def configWindow(window, timer):
 
 def pause(timer):
     return 0
+
 def reset(timer):
     timer = datetime.time(minute=25,second=0)
     return timer
 
 def start(timer, timerText, window):
-    countdown(timer, timerText, window)
+    count = 25
+    secs = 59
+    countdown(timer, timerText, window, secs, count)
     return 0
 
-def countdown(timer, timerText, window):
-    td = datetime.timedelta(seconds=1)
-    timer -= td
-    window.after(1000, timerText.config(text=str(timer.time())[3:]))
+def countdown(timer, timerText, window, secs, count):
+    if secs > 0:
+        onesec = datetime.timedelta(seconds=1)
+        timer -= onesec
+        timerText.config(text=str(timer.time())[3:6] + str(secs))
+        window.after(1000, countdown, timer, timerText, window, secs-1, count)
+    else:
+        count -= 1
+        countdown(timer, timerText, window, 59, count)
 
 timer = datetime.datetime(100,1,1,11,25,0)
 window = tk.Tk()
