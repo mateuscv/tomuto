@@ -1,9 +1,9 @@
-import datetime
-import time
 import tkinter as tk
+import time
 
-def configWindow(window, timer):
+startMinutes = 25 # global variable - change here if you want a different number of minutes for the timer
 
+def configWindow(window):
     # screen resolution and start conditions (gets user's screen width & height; calculate center point; defines title & icon)
 
     screen_width = window.winfo_screenwidth()
@@ -14,50 +14,91 @@ def configWindow(window, timer):
     window.title("openPomodoro")
     window.iconbitmap("icon.ico")
 
-    # window text, including default timer
+    # window text
 
     text = tk.Label(text="Open Pomodoro Timer")
     text.config(font=("Verdana", 12))
-    timerText = tk.Label(text=str(timer.time())[3:])
-    timerText.config(font=("Verdana", 20))
     text.pack()
-    timerText.pack()
 
-    # window buttons
 
-    startButton = tk.Button(window, text="Start", command=(lambda:start(timer, timerText, window)))
-    pauseButton = tk.Button(window, text="Pause", command=(lambda:pause()))
-    resetButton = tk.Button(window, text="Reset", command=(lambda:reset()))
-    startButton.place(relx=0.35, rely=0.77, anchor="center")
-    pauseButton.place(relx=0.5, rely=0.77, anchor="center")
-    resetButton.place(relx=0.65, rely=0.77, anchor="center")
+def prefixZero(seconds):
+    # adds extra 0 before single-digit seconds
+    displaysecs = str(seconds)
 
-    return 0
+    if len(displaysecs) == 1:
+        displaysecs = "0" + displaysecs
 
-def pause(timer):
-    return 0
+    return displaysecs
 
-def reset(timer):
-    timer = datetime.time(minute=25,second=0)
-    return timer
 
-def start(timer, timerText, window):
-    count = 25
-    secs = 59
-    countdown(timer, timerText, window, secs, count)
-    return 0
+def timerDisplay(minutes, seconds):
+    # updates the timer display every time it's called
 
-def countdown(timer, timerText, window, secs, count):
-    if secs > 0:
-        onesec = datetime.timedelta(seconds=1)
-        timer -= onesec
-        timerText.config(text=str(timer.time())[3:6] + str(secs))
-        window.after(1000, countdown, timer, timerText, window, secs-1, count)
+    displaysecs = prefixZero(seconds)
+    displaymins = prefixZero(minutes)
+    timerText.config(text=displaymins + ":" + displaysecs)
+    start(minutes, seconds)
+
+
+def startCaller(minutes, seconds):
+    # this calls the start function, but first disables the start button after it has been pressed.
+    startButton.configure(state=tk.DISABLED)
+    start(minutes, seconds)
+
+
+def start(minutes, seconds):
+    # start the countdown procedure after button press
+
+    done = False
+    minutes, seconds, done = countdown(minutes, seconds, done)
+    if not done:
+        window.after(1000, timerDisplay, minutes, seconds) # calls for an update every second
+
+
+def countdown(minutes, seconds, done):
+    # does the actual math behind the timer
+
+    if (minutes > 0 or seconds > 0): # if we're not on 00:00
+        if minutes == startMinutes and seconds == 60: # fresh start
+            minutes -= 1
+        if seconds > 0: # normal seconds countdown during a minute
+            seconds -= 1
+        else: # next minute reached!
+            seconds = 59
+            minutes -= 1
     else:
-        count -= 1
-        countdown(timer, timerText, window, 59, count)
+        startButton.configure(state=tk.ENABLED)
+        minutes = startMinutes
+        seconds = 60
+        done = True
 
-timer = datetime.datetime(100,1,1,11,25,0)
-window = tk.Tk()
-configWindow(window, timer)
+    return minutes, seconds, done
+
+
+#### MAIN ####:
+
+window = tk.Tk() # starting up the Tkinter window
+configWindow(window)
+
+# initial timer...:
+
+#...values:
+minutes = startMinutes
+seconds = 60
+
+#...display:
+
+timerText = tk.Label(text=str(minutes) + ":" + "00") 
+timerText.config(font=("Verdana", 20))
+timerText.pack()
+
+# config buttons:
+
+startButton = tk.Button(window, text="Start", command=(lambda:startCaller(minutes, seconds)))
+#pauseButton = tk.Button(window, text="Pause", command=(lambda:pause()))               KEY UPCOMING FEATURE
+#resetButton = tk.Button(window, text="Reset", command=(lambda:reset()))               KEY UPCOMING FEATURE
+startButton.place(relx=0.5, rely=0.77, anchor="center")
+#pauseButton.place(relx=0.35, rely=0.77, anchor="center")
+#resetButton.place(relx=0.65, rely=0.77, anchor="center")
+
 window.mainloop()
