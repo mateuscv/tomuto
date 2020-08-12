@@ -3,16 +3,16 @@ import time
 
 startMinutes = 25 # global variable - change here if you want a different number of minutes for the timer
 
-def configWindow(window):
+def configWindow(root):
     # screen resolution and start conditions (gets user's screen width & height; calculate center point; defines title & icon)
 
-    screen_width = window.winfo_screenwidth()
-    screen_height = window.winfo_screenheight()
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
     x = (screen_width/2) - (300/2)
     y = (screen_height/2) - (100/2)
-    window.geometry("300x100+" + str(int(x)) + "+" + str(int(y)))
-    window.title("openPomodoro")
-    window.iconbitmap("icon.ico")
+    root.geometry("300x100+" + str(int(x)) + "+" + str(int(y)))
+    root.title("openPomodoro")
+    root.iconbitmap("icon.ico")
 
     # window text
 
@@ -52,7 +52,7 @@ def start(minutes, seconds):
     done = False
     minutes, seconds, done = countdown(minutes, seconds, done)
     if not done:
-        window.after(1000, timerDisplay, minutes, seconds) # calls for an update every second
+        root.after(1000, timerDisplay, minutes, seconds) # calls for an update every second
 
 
 def countdown(minutes, seconds, done):
@@ -77,8 +77,8 @@ def countdown(minutes, seconds, done):
 
 #### MAIN ####:
 
-window = tk.Tk() # starting up the Tkinter window
-configWindow(window)
+root = tk.Tk() # starting up the Tkinter window
+configWindow(root)
 
 # initial timer...:
 
@@ -94,11 +94,11 @@ timerText.pack()
 
 # config buttons:
 
-startButton = tk.Button(window, text="Start", command=(lambda:startCaller(minutes, seconds)))
-#pauseButton = tk.Button(window, text="Pause", command=(lambda:pause()))               KEY UPCOMING FEATURE
-#resetButton = tk.Button(window, text="Reset", command=(lambda:reset()))               KEY UPCOMING FEATURE
+startButton = tk.Button(root, text="Start", command=(lambda:startCaller(minutes, seconds)))
+#pauseButton = tk.Button(root, text="Pause", command=(lambda:pause()))               KEY UPCOMING FEATURE
+#resetButton = tk.Button(root, text="Reset", command=(lambda:reset()))               KEY UPCOMING FEATURE
 startButton.place(relx=0.5, rely=0.77, anchor="center")
 #pauseButton.place(relx=0.35, rely=0.77, anchor="center")
 #resetButton.place(relx=0.65, rely=0.77, anchor="center")
 
-window.mainloop()
+root.mainloop()
