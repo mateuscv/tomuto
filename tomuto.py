@@ -1,8 +1,7 @@
 import tkinter as tk
-import time
 
-startMinutes = 25 # global variable - change here if you want a different number of minutes for the timer
-done = False # dictates if the timer is done or not.
+startMinutes = 25 # change here if you want a different number of minutes for the timer
+done = False # dictates if the timer is done (at 00:00) or not.
 
 def configWindow(root):
     # screen resolution and start conditions
@@ -34,11 +33,13 @@ def prefixZero(seconds):
     return displaysecs
 
 def timerDisplay(minutes, seconds, flavorText):
+    global done
     # updates the timer display every time it's called
+
     displaysecs = prefixZero(seconds)
     displaymins = prefixZero(minutes)
-    timerText.config(text=displaymins + ":" + displaysecs)
     if not done:
+        timerText.config(text=displaymins + ":" + displaysecs)
         start(minutes, seconds, flavorText)
 
 
@@ -67,7 +68,7 @@ def countdown(minutes, seconds, flavorText):
     global done
     # does the actual math behind the timer
 
-    if (minutes > 0 or seconds > 0): # if we're not on 00:00
+    if (minutes > 0 or seconds > 0): # if we're not at 00:00, i.e. not done
         if minutes == startMinutes and seconds == 60: # fresh start
             minutes -= 1
         if seconds > 0: # normal seconds countdown during a minute
@@ -75,7 +76,7 @@ def countdown(minutes, seconds, flavorText):
         else: # next minute reached!
             seconds = 59
             minutes -= 1
-    else:
+    else: # 00:00. Timer done!
         done = True
         flavorText.config(text="boop boop!")
 
@@ -129,8 +130,7 @@ timerText.pack()
 
 startButton = tk.Button(root, text="Start", command=(lambda:startCaller(minutes, seconds, flavorText)))
 #pauseButton = tk.Button(root, text="Pause", command=(lambda:pause()))               KEY UPCOMING FEATURE
-resetButton = tk.Button(root, text="Reset", command=(lambda:reset(flavorText)))               #KEY WIP FEATURE
-resetButton.configure(state=tk.DISABLED)
+resetButton = tk.Button(root, text="Reset", command=(lambda:reset(flavorText)))
 startButton.place(relx=0.5, rely=0.77, anchor="center")
 #pauseButton.place(relx=0.35, rely=0.77, anchor="center")
 resetButton.place(relx=0.65, rely=0.77, anchor="center")
