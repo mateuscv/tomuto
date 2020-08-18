@@ -16,6 +16,8 @@ def openInfoWindow():
     tomutoInfo.geometry("275x150+" + str(int(x-50)) + "+" + str(int(y)-40))
     tomutoInfo.resizable(0,0)
 
+    # widgets
+
     tomutoName = tk.Label(tomutoInfo, text="tomuto")
     tomutoName.config(font=("Verdana", 20), fg='red')
     tomutoName.pack()

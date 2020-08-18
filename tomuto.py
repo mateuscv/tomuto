@@ -127,6 +127,7 @@ def toggleSound():
         soundButton.configure(image=soundIcon)
         soundFlag = True
 
+
 #### MAIN ####:
 
 root = tk.Tk() # starting up the Tkinter window
