@@ -1,7 +1,10 @@
 import tkinter as tk
+import simpleaudio as sa
 
-startMinutes = 25 # change here if you want a different number of minutes for the timer
+startMinutes = 1 # change here if you want a different number of minutes for the timer
 done = False # dictates if the timer is done (at 00:00) or not.
+soundFlag = True # sound on/off toggle
+sfx = sa.WaveObject.from_wave_file("boop.wav") # the boop-boop sound object
 
 def configWindow(root):
     # screen resolution and start conditions
@@ -66,6 +69,7 @@ def start(minutes, seconds, flavorText):
 
 def countdown(minutes, seconds, flavorText):
     global done
+    global sfx
     # does the actual math behind the timer
 
     if (minutes > 0 or seconds > 0): # if we're not at 00:00, i.e. not done
@@ -79,6 +83,8 @@ def countdown(minutes, seconds, flavorText):
     else: # 00:00. Timer done!
         done = True
         flavorText.config(text="boop boop!")
+        sfx.play()
+
 
     return minutes, seconds
 
