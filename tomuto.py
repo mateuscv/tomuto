@@ -22,7 +22,7 @@ def configWindow(root):
 
     # window text
 
-    flavorText = tk.Label(text="tomuto: open source pomodoro")
+    flavorText = tk.Label(text="tomuto: open source tomato timer")
     flavorText.config(font=("Verdana", 10))
     flavorText.pack()
 
