@@ -97,7 +97,7 @@ def reset(flavorText):
 
     # flavor text:
 
-    flavorText.config(text="tomuto: open source pomodoro")
+    flavorText.config(text="tomuto: open source tomato timer")
 
     # resetting values:
 

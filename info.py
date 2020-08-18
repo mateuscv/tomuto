@@ -20,7 +20,7 @@ def openInfoWindow():
     tomutoName.config(font=("Verdana", 20), fg='red')
     tomutoName.pack()
 
-    description = tk.Label(tomutoInfo, text='open source pomodoro timer')
+    description = tk.Label(tomutoInfo, text='open source tomato timer')
     description.pack(pady=(0,10))
 
     github = tk.Label(tomutoInfo, text="More info and source code:")
