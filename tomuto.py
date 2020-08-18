@@ -4,7 +4,7 @@ import simpleaudio as sa
 startMinutes = 1 # change here if you want a different number of minutes for the timer
 done = False # dictates if the timer is done (at 00:00) or not.
 soundFlag = True # sound on/off toggle
-sfx = sa.WaveObject.from_wave_file("boop.wav") # the boop-boop sound object
+sfx = sa.WaveObject.from_wave_file("resources/boop.wav") # the boop-boop sound object
 
 def configWindow(root):
     # screen resolution and start conditions
@@ -16,7 +16,7 @@ def configWindow(root):
     y = (screen_height/2) - (100/2)
     root.geometry("300x100+" + str(int(x)) + "+" + str(int(y)))
     root.title("tomuto")
-    root.iconbitmap("icon.ico")
+    root.iconbitmap("resources/icon.ico")
 
     # window text
 
@@ -83,8 +83,8 @@ def countdown(minutes, seconds, flavorText):
     else: # 00:00. Timer done!
         done = True
         flavorText.config(text="boop boop!")
-        sfx.play()
-
+        if soundFlag:
+            sfx.play()
 
     return minutes, seconds
 
@@ -114,6 +114,16 @@ def timerDisplayResetter(minutes, seconds):
 
     timerText.config(text=str(minutes) + ":" + "00")
 
+def toggleSound():
+    global soundFlag
+    # toggles sound on or off from button press
+    if soundFlag:
+        soundButton.configure(image=noSoundIcon)
+        soundFlag = False
+    else:
+        soundButton.configure(image=soundIcon)
+        soundFlag = True
+
 
 #### MAIN ####:
 
@@ -134,11 +144,17 @@ timerText.pack()
 
 # config buttons:
 
+soundIcon = tk.PhotoImage(file="resources/sound.png")
+noSoundIcon = tk.PhotoImage(file="resources/nosound.png")
+
 startButton = tk.Button(root, text="Start", command=(lambda:startCaller(minutes, seconds, flavorText)))
 #pauseButton = tk.Button(root, text="Pause", command=(lambda:pause()))               KEY UPCOMING FEATURE
 resetButton = tk.Button(root, text="Reset", command=(lambda:reset(flavorText)))
+soundButton = tk.Button(root, text="", image=soundIcon, command=(lambda:toggleSound()))
+
 startButton.place(relx=0.5, rely=0.77, anchor="center")
 #pauseButton.place(relx=0.35, rely=0.77, anchor="center")
 resetButton.place(relx=0.65, rely=0.77, anchor="center")
+soundButton.place(relx=0.95, rely=0.85, anchor="center")
 
 root.mainloop()
