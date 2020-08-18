@@ -1,7 +1,8 @@
 # tomuto -  open source tomato timer
 tomuto is a simple, open source tomato timer app. It features sound and runs on Windows, Linux, and possibly macOS (please test it and tell me!).
 
-![Tomuto screenshot](https://i.imgur.com/obYZwcA.png)
+![Tomuto screenshot on Windows](https://i.imgur.com/obYZwcA.png)
+![Tomuto screenshot on Ubuntu](https://i.imgur.com/6df81B2.png)
 
 ## Installation:
 Please use the button below to be redirected to the latest release of tomuto. <br>
