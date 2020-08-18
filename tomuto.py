@@ -1,5 +1,6 @@
 import tkinter as tk
 import simpleaudio as sa
+import info
 
 startMinutes = 1 # change here if you want a different number of minutes for the timer
 done = False # dictates if the timer is done (at 00:00) or not.
@@ -17,11 +18,12 @@ def configWindow(root):
     root.geometry("300x100+" + str(int(x)) + "+" + str(int(y)))
     root.title("tomuto")
     root.iconbitmap("resources/icon.ico")
+    root.resizable(0,0) # remove this line if you want tomuto resizable. Some sizes look funky
 
     # window text
 
     flavorText = tk.Label(text="tomuto: open source pomodoro")
-    flavorText.config(font=("Verdana", 12))
+    flavorText.config(font=("Verdana", 10))
     flavorText.pack()
 
     return flavorText
@@ -117,13 +119,13 @@ def timerDisplayResetter(minutes, seconds):
 def toggleSound():
     global soundFlag
     # toggles sound on or off from button press
+
     if soundFlag:
         soundButton.configure(image=noSoundIcon)
         soundFlag = False
     else:
         soundButton.configure(image=soundIcon)
         soundFlag = True
-
 
 #### MAIN ####:
 
@@ -146,15 +148,21 @@ timerText.pack()
 
 soundIcon = tk.PhotoImage(file="resources/sound.png")
 noSoundIcon = tk.PhotoImage(file="resources/nosound.png")
+infoIcon = tk.PhotoImage(file="resources/info.png")
 
 startButton = tk.Button(root, text="Start", command=(lambda:startCaller(minutes, seconds, flavorText)))
-#pauseButton = tk.Button(root, text="Pause", command=(lambda:pause()))               KEY UPCOMING FEATURE
 resetButton = tk.Button(root, text="Reset", command=(lambda:reset(flavorText)))
 soundButton = tk.Button(root, text="", image=soundIcon, command=(lambda:toggleSound()))
+infoButton = tk.Button(root, text="", image=infoIcon, command=(lambda:info.openInfoWindow()))
 
 startButton.place(relx=0.5, rely=0.77, anchor="center")
-#pauseButton.place(relx=0.35, rely=0.77, anchor="center")
 resetButton.place(relx=0.65, rely=0.77, anchor="center")
-soundButton.place(relx=0.95, rely=0.85, anchor="center")
+soundButton.place(relx=0.96, rely=0.90, anchor="center")
+infoButton.place(relx=0.04, rely=0.90, anchor="center")
+
+# Work-in-progress:
+pauseButton = tk.Button(root, text="Pause")               #KEY UPCOMING FEATURE
+pauseButton.configure(state=tk.DISABLED)
+pauseButton.place(relx=0.35, rely=0.77, anchor="center")
 
 root.mainloop()
