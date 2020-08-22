@@ -111,6 +111,17 @@ def reset(flavorText):
     startButton.configure(state=tk.NORMAL)
 
 
+def pause(flavorText):
+    global done
+    # pauses on button press
+
+    if not done:
+        flavorText.configure(text="paused")
+        done = True
+    elif done:
+        done = False
+        
+
 def timerDisplayResetter(minutes, seconds):
     # resets the display to start minutes value when reset is pressed.
 
@@ -162,8 +173,8 @@ soundButton.place(relx=0.96, rely=0.90, anchor="center")
 infoButton.place(relx=0.04, rely=0.90, anchor="center")
 
 # Work-in-progress:
-pauseButton = tk.Button(root, text="Pause")               #KEY UPCOMING FEATURE
-pauseButton.configure(state=tk.DISABLED)
+pauseButton = tk.Button(root, text="Pause", command=(lambda:pause(flavorText)))               #KEY UPCOMING FEATURE
+#pauseButton.configure(state=tk.DISABLED)
 pauseButton.place(relx=0.35, rely=0.77, anchor="center")
 
 root.mainloop()
