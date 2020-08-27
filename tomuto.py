@@ -2,11 +2,14 @@ import tkinter as tk
 import simpleaudio as sa
 import info
 
+#### GLOBAL VARIABLES ####
+
 startMinutes = 25 # change here if you want a different number of minutes for the timer
 done = False # dictates if the timer is done (at 00:00) or not.
-soundFlag = True # sound on/off toggle
+soundFlag = True # sound on/off toggle flag
 sfx = sa.WaveObject.from_wave_file("resources/boop.wav") # the boop-boop sound object
-paused = False
+
+#### FUNCTION DEFINITIONS ####
 
 def configWindow(root):
     # screen resolution and start conditions
@@ -31,12 +34,14 @@ def configWindow(root):
 
 def prefixZero(seconds):
     # adds extra 0 before single-digit seconds
+
     displaysecs = str(seconds)
 
     if len(displaysecs) == 1:
         displaysecs = "0" + displaysecs
 
     return displaysecs
+
 
 def timerDisplay(minutes, seconds, flavorText):
     global done
@@ -52,8 +57,8 @@ def timerDisplay(minutes, seconds, flavorText):
 def startCaller(minutes, seconds, flavorText):
     global done
     # this calls the start function, but first disables the start button after it has been pressed.
-    pauseButton.configure(state=tk.NORMAL)
 
+    pauseButton.configure(state=tk.NORMAL)
     flavorText.config(text='running...')
     startButton.configure(state=tk.DISABLED)
     resetButton.configure(state=tk.NORMAL)
@@ -108,9 +113,11 @@ def reset(flavorText):
     seconds = 60
     timerDisplayResetter(minutes, seconds)
 
-    # re-enabling start button:
+    # configuring start/pause button:
 
     startButton.configure(state=tk.NORMAL)
+    pauseButton.configure(text='Pause')
+    pauseButton.place(relx=0.35, rely=0.77, anchor="center")
     pauseButton.configure(state=tk.DISABLED)
 
 
@@ -130,18 +137,28 @@ def pause(flavorText):
         flavorText.configure(text="paused")
         done = True
         paused = True
+        pauseButton.configure(text='Resume')
+        pauseButton.place(relx=0.33, rely=0.77, anchor="center")
+
     else:
         done = False
         paused = False
+        pauseButton.configure(text='Pause')
+        pauseButton.place(relx=0.35, rely=0.77, anchor="center")
+
 
     return paused
 
+
 def getTime():
+    # gets the currently showing time in integers for both minutes and seconds 
 
     separatorIndex = timerText['text'].index(":")
     minutes = int(timerText['text'][:separatorIndex])
     seconds = int(timerText['text'][separatorIndex+1:])
+    
     return minutes, seconds
+
 
 def timerDisplayResetter(minutes, seconds):
     # resets the display to start minutes value when reset is pressed.
@@ -151,7 +168,7 @@ def timerDisplayResetter(minutes, seconds):
 
 def toggleSound():
     global soundFlag
-    # toggles sound on or off from button press
+    # toggles sound on or off when the button is pressed
 
     if soundFlag:
         soundButton.configure(image=noSoundIcon)
@@ -178,7 +195,7 @@ timerText = tk.Label(text=str(minutes) + ":" + "00")
 timerText.config(font=("Verdana", 20))
 timerText.pack()
 
-# config buttons:
+# configuring the buttons:
 
 soundIcon = tk.PhotoImage(file="resources/sound.png")
 noSoundIcon = tk.PhotoImage(file="resources/nosound.png")
@@ -194,9 +211,8 @@ resetButton.place(relx=0.65, rely=0.77, anchor="center")
 soundButton.place(relx=0.96, rely=0.90, anchor="center")
 infoButton.place(relx=0.04, rely=0.90, anchor="center")
 
-# Work-in-progress:
-pauseButton = tk.Button(root, text="Pause", command=(lambda:pauseClick(flavorText)))               #KEY UPCOMING FEATURE
+pauseButton = tk.Button(root, text="Pause", command=(lambda:pauseClick(flavorText)))
 pauseButton.configure(state=tk.DISABLED)
-#pauseButton.configure(state=tk.DISABLED)
 pauseButton.place(relx=0.35, rely=0.77, anchor="center")
+
 root.mainloop()
