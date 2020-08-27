@@ -52,6 +52,7 @@ def timerDisplay(minutes, seconds, flavorText):
 def startCaller(minutes, seconds, flavorText):
     global done
     # this calls the start function, but first disables the start button after it has been pressed.
+    pauseButton.configure(state=tk.NORMAL)
 
     flavorText.config(text='running...')
     startButton.configure(state=tk.DISABLED)
@@ -110,6 +111,7 @@ def reset(flavorText):
     # re-enabling start button:
 
     startButton.configure(state=tk.NORMAL)
+    pauseButton.configure(state=tk.DISABLED)
 
 
 def pauseClick(flavorText):
@@ -137,7 +139,6 @@ def pause(flavorText):
 def getTime():
 
     separatorIndex = timerText['text'].index(":")
-    print(separatorIndex)
     minutes = int(timerText['text'][:separatorIndex])
     seconds = int(timerText['text'][separatorIndex+1:])
     return minutes, seconds
@@ -195,6 +196,7 @@ infoButton.place(relx=0.04, rely=0.90, anchor="center")
 
 # Work-in-progress:
 pauseButton = tk.Button(root, text="Pause", command=(lambda:pauseClick(flavorText)))               #KEY UPCOMING FEATURE
+pauseButton.configure(state=tk.DISABLED)
 #pauseButton.configure(state=tk.DISABLED)
 pauseButton.place(relx=0.35, rely=0.77, anchor="center")
 root.mainloop()
