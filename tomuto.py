@@ -6,6 +6,7 @@ startMinutes = 25 # change here if you want a different number of minutes for th
 done = False # dictates if the timer is done (at 00:00) or not.
 soundFlag = True # sound on/off toggle
 sfx = sa.WaveObject.from_wave_file("resources/boop.wav") # the boop-boop sound object
+paused = False
 
 def configWindow(root):
     # screen resolution and start conditions
@@ -111,6 +112,14 @@ def reset(flavorText):
     startButton.configure(state=tk.NORMAL)
 
 
+def pauseClick(flavorText):
+    #what i need to do is get the minutes and seconds it's at, then restart. maybe calling start()
+
+    minutes, seconds = getTime() # now, getting the time that is currently showing...
+    paused = pause(flavorText)
+    if not paused:
+        startCaller(minutes, seconds, flavorText)
+
 def pause(flavorText):
     global done
     # pauses on button press
@@ -118,14 +127,26 @@ def pause(flavorText):
     if not done:
         flavorText.configure(text="paused")
         done = True
-    elif done:
+        paused = True
+    else:
         done = False
-        
+        paused = False
+
+    return paused
+
+def getTime():
+
+    separatorIndex = timerText['text'].index(":")
+    print(separatorIndex)
+    minutes = int(timerText['text'][:separatorIndex])
+    seconds = int(timerText['text'][separatorIndex+1:])
+    return minutes, seconds
 
 def timerDisplayResetter(minutes, seconds):
     # resets the display to start minutes value when reset is pressed.
 
     timerText.config(text=str(minutes) + ":" + "00")
+
 
 def toggleSound():
     global soundFlag
@@ -173,8 +194,7 @@ soundButton.place(relx=0.96, rely=0.90, anchor="center")
 infoButton.place(relx=0.04, rely=0.90, anchor="center")
 
 # Work-in-progress:
-pauseButton = tk.Button(root, text="Pause", command=(lambda:pause(flavorText)))               #KEY UPCOMING FEATURE
+pauseButton = tk.Button(root, text="Pause", command=(lambda:pauseClick(flavorText)))               #KEY UPCOMING FEATURE
 #pauseButton.configure(state=tk.DISABLED)
 pauseButton.place(relx=0.35, rely=0.77, anchor="center")
-
 root.mainloop()
