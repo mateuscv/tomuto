@@ -6,7 +6,7 @@ tomuto is a simple, open source tomato timer app. It features sound and runs on 
 
 ## Installation:
 Please use the button below to be redirected to the latest release of tomuto. <br>
-[![Release](https://img.shields.io/github/v/release/mateuscv/tomuto?include_prereleases)](https://github.com/mateuscv/tomuto/releases/tag/alpha)
+[![Release](https://img.shields.io/github/v/release/mateuscv/tomuto?include_prereleases)](https://github.com/mateuscv/tomuto/releases/tag/beta-v1.0.0)
 
 ## Credits:
 - 'Boop' sound effect by myself
