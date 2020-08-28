@@ -1,39 +1,21 @@
 import tkinter as tk
 import simpleaudio as sa
+import win_config as wc
 import info
 
 #### GLOBAL VARIABLES ####
 
-startMinutes = 25 # change here if you want a different number of minutes for the timer
-done = False # dictates if the timer is done (at 00:00) or not.
-soundFlag = True # sound on/off toggle flag
-sfx = sa.WaveObject.from_wave_file("resources/boop.wav") # the boop-boop sound object
+start_minutes = 25 # Change here if you want a different number of minutes 
+# for the timer
+done = False # Dictates if the timer is done (at 00:00) or not.
+sound_flag = True # Sound on/off toggle flag
+sfx = sa.WaveObject.from_wave_file("resources/boop.wav") # Boop sfx
 
 #### FUNCTION DEFINITIONS ####
 
-def configWindow(root):
-    # screen resolution and start conditions
-    # (gets user's screen width & height; calculates center point; defines title & icon)
 
-    screen_width = root.winfo_screenwidth()
-    screen_height = root.winfo_screenheight()
-    x = (screen_width/2) - (300/2)
-    y = (screen_height/2) - (100/2)
-    root.geometry("300x100+" + str(int(x)) + "+" + str(int(y)))
-    root.title("tomuto")
-    root.iconbitmap("resources/icon.ico")
-    root.resizable(0,0) # remove this line if you want tomuto resizable. Some sizes look funky
-
-    # window text
-
-    flavorText = tk.Label(text="tomuto: open source tomato timer")
-    flavorText.config(font=("Verdana", 10))
-    flavorText.pack()
-
-    return flavorText
-
-def prefixZero(seconds):
-    # adds extra 0 before single-digit seconds
+def prefix_zero(seconds):
+    # Adds extra 0 before single-digit seconds
 
     displaysecs = str(seconds)
 
@@ -43,176 +25,180 @@ def prefixZero(seconds):
     return displaysecs
 
 
-def timerDisplay(minutes, seconds, flavorText):
+def timer_display(minutes, seconds, flavor_text):
     global done
-    # updates the timer display every time it's called
+    # Updates the timer display every time it's called
 
-    displaysecs = prefixZero(seconds)
-    displaymins = prefixZero(minutes)
+    displaysecs = prefix_zero(seconds)
+    displaymins = prefix_zero(minutes)
     if not done:
-        timerText.config(text=displaymins + ":" + displaysecs)
-        start(minutes, seconds, flavorText)
+        timer_text.config(text=displaymins + ":" + displaysecs)
+        start(minutes, seconds, flavor_text)
 
 
-def startCaller(minutes, seconds, flavorText):
+def start(minutes, seconds, flavor_text):
     global done
-    # this calls the start function, but first disables the start button after it has been pressed.
+    # Start the countdown procedure after button press
 
-    pauseButton.configure(state=tk.NORMAL)
-    flavorText.config(text='running...')
-    startButton.configure(state=tk.DISABLED)
-    resetButton.configure(state=tk.NORMAL)
-
-    done = False
-    start(minutes, seconds, flavorText)
-
-
-def start(minutes, seconds, flavorText):
-    global done
-    # start the countdown procedure after button press
-
-    minutes, seconds = countdown(minutes, seconds, flavorText)
+    minutes, seconds = countdown(minutes, seconds, flavor_text)
     if not done:
-        root.after(1000, timerDisplay, minutes, seconds, flavorText) # calls for an update every second
+        root.after(1000, timer_display, minutes, seconds, flavor_text) 
+        # ^ Calls for an update every second
 
 
-def countdown(minutes, seconds, flavorText):
+def countdown(minutes, seconds, flavor_text):
     global done
     global sfx
-    # does the actual math behind the timer
+    # Does the actual math behind the timer
 
-    if (minutes > 0 or seconds > 0): # if we're not at 00:00, i.e. not done
-        if minutes == startMinutes and seconds == 60: # fresh start
+    if (minutes > 0 or seconds > 0): # If we're not at 00:00, i.e. not done
+        if minutes == start_minutes and seconds == 60: # fresh start
             minutes -= 1
-        if seconds > 0: # normal seconds countdown during a minute
+        if seconds > 0:  # Normal seconds countdown during a minute
             seconds -= 1
-        else: # next minute reached!
+        else:  # Next minute reached!
             seconds = 59
             minutes -= 1
-    else: # 00:00. Timer done!
+    else:  # 00:00. Timer done!
         done = True
-        flavorText.config(text="boop boop!")
-        if soundFlag:
+        flavor_text.config(text="boop boop!")
+        if sound_flag:
             sfx.play()
 
     return minutes, seconds
 
 
-def reset(flavorText):
+def start_caller(minutes, seconds, flavor_text):
     global done
-    # activates upon press of the Reset button.
+    # This calls the start function, but first disables the start button
+    # After it has been pressed.
 
-    # flavor text:
+    pause_button.configure(state=tk.NORMAL)
+    flavor_text.config(text="running...")
+    start_button.configure(state=tk.DISABLED)
+    reset_button.configure(state=tk.NORMAL)
 
-    flavorText.config(text="tomuto: open source tomato timer")
+    done = False
+    start(minutes, seconds, flavor_text)
 
-    # resetting values:
+
+def reset(flavor_text):
+    global done
+    # Activates upon press of the Reset button.
+
+    # Flavor text:
+
+    flavor_text.config(text="tomuto: open source tomato timer")
+
+    # Resetting values:
 
     done = True
-    minutes = startMinutes
+    minutes = start_minutes
     seconds = 60
-    timerDisplayResetter(minutes, seconds)
+    timer_displayResetter(minutes, seconds)
 
-    # configuring start/pause button:
+    # Configuring start/pause button:
 
-    startButton.configure(state=tk.NORMAL)
-    pauseButton.configure(text='Pause')
-    pauseButton.place(relx=0.35, rely=0.77, anchor="center")
-    pauseButton.configure(state=tk.DISABLED)
+    start_button.configure(state=tk.NORMAL)
+    pause_button.configure(text="Pause")
+    pause_button.place(relx=0.35, rely=0.77, anchor="center")
+    pause_button.configure(state=tk.DISABLED)
 
 
-def pauseClick(flavorText):
-    #what i need to do is get the minutes and seconds it's at, then restart. maybe calling start()
+def pause_click(flavor_text):
+    # Activates on click of the pause button. handles pausing
 
-    minutes, seconds = getTime() # now, getting the time that is currently showing...
-    paused = pause(flavorText)
+    minutes, seconds = get_time()  # Now, getting the time that is currently 
+    #showing...
+    paused = pause(flavor_text)
     if not paused:
-        startCaller(minutes, seconds, flavorText)
+        start_caller(minutes, seconds, flavor_text)
 
-def pause(flavorText):
+
+def pause(flavor_text):
     global done
-    # pauses on button press
+    # Pauses on button press
 
     if not done:
-        flavorText.configure(text="paused")
+        flavor_text.configure(text="paused")
         done = True
         paused = True
-        pauseButton.configure(text='Resume')
-        pauseButton.place(relx=0.33, rely=0.77, anchor="center")
+        pause_button.configure(text="Resume")
+        pause_button.place(relx=0.33, rely=0.77, anchor="center")
 
     else:
         done = False
         paused = False
-        pauseButton.configure(text='Pause')
-        pauseButton.place(relx=0.35, rely=0.77, anchor="center")
-
+        pause_button.configure(text="Pause")
+        pause_button.place(relx=0.35, rely=0.77, anchor="center")
 
     return paused
 
 
-def getTime():
-    # gets the currently showing time in integers for both minutes and seconds 
+def get_time():
+    # Gets the currently showing time in integers for both minutes and 
+    # seconds 
 
-    separatorIndex = timerText['text'].index(":")
-    minutes = int(timerText['text'][:separatorIndex])
-    seconds = int(timerText['text'][separatorIndex+1:])
+    separatorIndex = timer_text["text"].index(":")
+    minutes = int(timer_text["text"][:separatorIndex])
+    seconds = int(timer_text["text"][separatorIndex+1:])
     
     return minutes, seconds
 
 
-def timerDisplayResetter(minutes, seconds):
-    # resets the display to start minutes value when reset is pressed.
+def timer_displayResetter(minutes, seconds):
+    # Resets the display to start minutes value when reset is pressed.
 
-    timerText.config(text=str(minutes) + ":" + "00")
+    timer_text.config(text=str(minutes) + ":" + "00")
 
 
 def toggleSound():
-    global soundFlag
-    # toggles sound on or off when the button is pressed
+    global sound_flag
+    # Toggles sound on or off when the button is pressed
 
-    if soundFlag:
-        soundButton.configure(image=noSoundIcon)
-        soundFlag = False
+    if sound_flag:
+        sound_button.configure(image=no_sound_icon)
+        sound_flag = False
     else:
-        soundButton.configure(image=soundIcon)
-        soundFlag = True
+        sound_button.configure(image=sound_icon)
+        sound_flag = True
 
 
 #### MAIN ####:
 
-root = tk.Tk() # starting up the Tkinter window
-flavorText = configWindow(root) # apply window settings
+root = tk.Tk()  # Starting up the Tkinter window
+flavor_text = wc.config_window(root)  # Apply window settings
 
-# initial timer...:
+# Initial timer...:
 
 #...values:
-minutes = startMinutes
+minutes = start_minutes
 seconds = 60
 
 #...display:
 
-timerText = tk.Label(text=str(minutes) + ":" + "00") 
-timerText.config(font=("Verdana", 20))
-timerText.pack()
+timer_text = tk.Label(text=str(minutes) + ":" + "00") 
+timer_text.config(font=("Verdana", 20))
+timer_text.pack()
 
-# configuring the buttons:
+# Configuring the buttons:
 
-soundIcon = tk.PhotoImage(file="resources/sound.png")
-noSoundIcon = tk.PhotoImage(file="resources/nosound.png")
-infoIcon = tk.PhotoImage(file="resources/info.png")
+sound_icon, no_sound_icon, info_icon = wc.get_icons() #  Get the icons
 
-startButton = tk.Button(root, text="Start", command=(lambda:startCaller(minutes, seconds, flavorText)))
-resetButton = tk.Button(root, text="Reset", command=(lambda:reset(flavorText)))
-soundButton = tk.Button(root, text="", image=soundIcon, command=(lambda:toggleSound()))
-infoButton = tk.Button(root, text="", image=infoIcon, command=(lambda:info.openInfoWindow()))
+start_button = tk.Button(root, text="Start", command=(lambda:start_caller(
+    minutes, seconds, flavor_text)))
+reset_button = tk.Button(root, text="Reset", command=(lambda:reset(
+    flavor_text)))
+pause_button = tk.Button(root, text="Pause", command=(lambda:pause_click(
+    flavor_text)))
+sound_button = tk.Button(root, text="", image=sound_icon, command=(
+    lambda:toggleSound()))
+info_button = tk.Button(root, text="", image=info_icon, command=(
+    lambda:info.open_info_window()))
 
-startButton.place(relx=0.5, rely=0.77, anchor="center")
-resetButton.place(relx=0.65, rely=0.77, anchor="center")
-soundButton.place(relx=0.96, rely=0.90, anchor="center")
-infoButton.place(relx=0.04, rely=0.90, anchor="center")
+wc.place_buttons(start_button, reset_button, pause_button, sound_button,
+ info_button) #  Place the buttons
 
-pauseButton = tk.Button(root, text="Pause", command=(lambda:pauseClick(flavorText)))
-pauseButton.configure(state=tk.DISABLED)
-pauseButton.place(relx=0.35, rely=0.77, anchor="center")
+pause_button.configure(state=tk.DISABLED)
 
 root.mainloop()
