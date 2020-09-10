@@ -5,7 +5,7 @@ import info
 
 #### GLOBAL VARIABLES ####
 
-start_minutes = 1 # Change here if you want a different number of minutes 
+start_minutes = 25 # Change here if you want a different number of minutes 
 # for the timer
 done = False # Dictates if the timer is done (at 00:00) or not.
 sound_flag = True # Sound on/off toggle flag
