@@ -5,7 +5,7 @@ import info
 
 #### GLOBAL VARIABLES ####
 
-start_minutes = 25 # Change here if you want a different number of minutes 
+start_minutes = 1 # Change here if you want a different number of minutes 
 # for the timer
 done = False # Dictates if the timer is done (at 00:00) or not.
 sound_flag = True # Sound on/off toggle flag
@@ -64,6 +64,8 @@ def countdown(minutes, seconds, flavor_text):
         flavor_text.config(text="boop boop!")
         if sound_flag:
             sfx.play()
+            root.after(1000, sfx.play)
+            root.after(2000, sfx.play)
 
     return minutes, seconds
 
@@ -164,6 +166,14 @@ def toggleSound():
         sound_flag = True
 
 
+def five_min_break(flavor_text):
+    flavor_text.config(text='WIP Functionality')
+
+
+def ten_min_break(flavor_text):
+    flavor_text.config(text='WIP Functionality')
+
+
 #### MAIN ####:
 
 root = tk.Tk()  # Starting up the Tkinter window
@@ -183,7 +193,7 @@ timer_text.pack()
 
 # Configuring the buttons:
 
-sound_icon, no_sound_icon, info_icon = wc.get_icons() #  Get the icons
+sound_icon, no_sound_icon, info_icon, tenicon, fiveicon = wc.get_icons()
 
 start_button = tk.Button(root, text="Start", command=(lambda:start_caller(
     minutes, seconds, flavor_text)))
@@ -195,9 +205,13 @@ sound_button = tk.Button(root, text="", image=sound_icon, command=(
     lambda:toggleSound()))
 info_button = tk.Button(root, text="", image=info_icon, command=(
     lambda:info.open_info_window()))
+ten_button = tk.Button(root, text="", image=tenicon, command=(
+    lambda:ten_min_break(flavor_text)))
+five_button = tk.Button(root, text="", image=fiveicon, command=(
+    lambda:five_min_break(flavor_text)))
 
 wc.place_buttons(start_button, reset_button, pause_button, sound_button,
- info_button) #  Place the buttons
+ info_button, ten_button, five_button) #  Place the buttons
 
 pause_button.configure(state=tk.DISABLED)
 

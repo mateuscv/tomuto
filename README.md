@@ -9,7 +9,7 @@ Please use the button below to be redirected to the latest release of tomuto. <b
 [![Release](https://img.shields.io/github/v/release/mateuscv/tomuto?include_prereleases)](https://github.com/mateuscv/tomuto/releases/tag/alpha)
 
 ## Credits:
-- 'Boop' sound effect by myself
+- 'Boop' sound effect and break icons by myself
 - Tomato icon by Icongeek26 (https://www.flaticon.com/br/autores/icongeek26)
 - Volume/info icons by Google (https://www.flaticon.com/br/autores/google)
 

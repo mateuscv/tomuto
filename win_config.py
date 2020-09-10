@@ -29,12 +29,14 @@ def get_icons():
     sound_icon = tk.PhotoImage(file="resources/sound.png")
     no_sound_icon = tk.PhotoImage(file="resources/nosound.png")
     info_icon = tk.PhotoImage(file="resources/info.png")
+    tenicon = tk.PhotoImage(file="resources/10minbreak.png")
+    fiveicon = tk.PhotoImage(file="resources/5minbreak.png")
 
-    return sound_icon, no_sound_icon, info_icon
+    return sound_icon, no_sound_icon, info_icon, tenicon, fiveicon
 
 
 def place_buttons(start_button, reset_button, pause_button, sound_button,
- info_button):
+ info_button, ten_button, five_button):
     # Initial button placements
 
     start_button.place(relx=0.5, rely=0.77, anchor="center")
@@ -42,4 +44,5 @@ def place_buttons(start_button, reset_button, pause_button, sound_button,
     pause_button.place(relx=0.35, rely=0.77, anchor="center")
     sound_button.place(relx=0.96, rely=0.90, anchor="center")
     info_button.place(relx=0.04, rely=0.90, anchor="center")
-
+    ten_button.place(relx=0.11, rely=0.90, anchor="center")
+    five_button.place(relx=0.89, rely=0.90, anchor="center")
