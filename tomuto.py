@@ -84,6 +84,10 @@ def start_caller(minutes, seconds, flavor_text):
     start(minutes, seconds, flavor_text)
 
 
+def reset_buttons_return(start_button):
+    start_button.configure(state=tk.NORMAL)
+
+
 def reset(flavor_text):
     global done
     # Activates upon press of the Reset button.
@@ -101,10 +105,13 @@ def reset(flavor_text):
 
     # Configuring start/pause button:
 
-    start_button.configure(state=tk.NORMAL)
     pause_button.configure(text="Pause")
     pause_button.place(relx=0.35, rely=0.77, anchor="center")
     pause_button.configure(state=tk.DISABLED)
+
+    # wait before letting start so we don't have two timers at the same time:
+
+    root.after(1000, reset_buttons_return, start_button) 
 
 
 def pause_click(flavor_text):

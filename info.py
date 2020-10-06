@@ -14,7 +14,7 @@ def open_info_window():
     screen_height = tomuto_info.winfo_screenheight()
     x = (screen_width/2) - (300/2)
     y = (screen_height/2) - (100/2)
-    tomuto_info.geometry("275x150+" + str(int(x-50)) + "+" + str(int(y)-40))
+    tomuto_info.geometry("270x165+" + str(int(x-50)) + "+" + str(int(y)-40))
     tomuto_info.resizable(0,0)
 
     # Widgets
@@ -34,6 +34,10 @@ def open_info_window():
 
     original_developer = tk.Label(tomuto_info, text="Created with ♥ by Mateus Cappellari Vieira")
     original_developer.pack(pady=(10,0))
+
+    version = tk.Label(tomuto_info, text='development build 0.9.1')
+    version.pack(pady=(1,0))
+    version.config(font=("Verdana", 8), fg='gray')
 
 
 def callback(url):
