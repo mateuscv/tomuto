@@ -18,22 +18,22 @@ sfx = sa.WaveObject.from_wave_file("resources/boop.wav")  # Boop sfx
 def prefix_zero(seconds):
     # Adds extra 0 before single-digit seconds
 
-    displaysecs = str(seconds)
+    display_secs = str(seconds)
 
-    if len(displaysecs) == 1:
-        displaysecs = "0" + displaysecs
+    if len(display_secs) == 1:
+        display_secs = "0" + display_secs
 
-    return displaysecs
+    return display_secs
 
 
 def timer_display(minutes, seconds, flavor_text):
     global done
     # Updates the timer display every time it's called
 
-    displaysecs = prefix_zero(seconds)
-    displaymins = prefix_zero(minutes)
+    display_secs = prefix_zero(seconds)
+    display_mins = prefix_zero(minutes)
     if not done:
-        timer_text.config(text=displaymins + ":" + displaysecs)
+        timer_text.config(text=display_mins + ":" + display_secs)
         start(minutes, seconds, flavor_text)
 
 
@@ -230,7 +230,7 @@ timer_text.pack()
 
 # Configuring the buttons:
 
-sound_icon, no_sound_icon, info_icon, tenicon, fiveicon = wc.get_icons()
+sound_icon, no_sound_icon, info_icon, ten_icon, five_icon = wc.get_icons()
 
 start_button = tk.Button(root, text="Start", command=(lambda: start_caller(
     minutes, seconds, flavor_text)))
@@ -242,9 +242,9 @@ sound_button = tk.Button(root, text="", image=sound_icon, command=(
     lambda: toggle_sound()))
 info_button = tk.Button(root, text="", image=info_icon, command=(
     lambda: info.open_info_window()))
-ten_button = tk.Button(root, text="", image=tenicon, command=(
+ten_button = tk.Button(root, text="", image=ten_icon, command=(
     lambda: ten_min_break(flavor_text, timer_text)))
-five_button = tk.Button(root, text="", image=fiveicon, command=(
+five_button = tk.Button(root, text="", image=five_icon, command=(
     lambda: five_min_break(flavor_text, timer_text)))
 
 #  Placing the buttons:

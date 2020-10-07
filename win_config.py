@@ -29,10 +29,10 @@ def get_icons():
     sound_icon = tk.PhotoImage(file="resources/sound.png")
     no_sound_icon = tk.PhotoImage(file="resources/nosound.png")
     info_icon = tk.PhotoImage(file="resources/info.png")
-    tenicon = tk.PhotoImage(file="resources/10minbreak.png")
-    fiveicon = tk.PhotoImage(file="resources/5minbreak.png")
+    ten_icon = tk.PhotoImage(file="resources/10minbreak.png")
+    five_icon = tk.PhotoImage(file="resources/5minbreak.png")
 
-    return sound_icon, no_sound_icon, info_icon, tenicon, fiveicon
+    return sound_icon, no_sound_icon, info_icon, ten_icon, five_icon
 
 
 def place_buttons(start_button, reset_button, pause_button, sound_button,
