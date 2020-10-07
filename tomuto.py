@@ -9,6 +9,7 @@ start_minutes = 25  # Change here if you want a different number of minutes
 # for the timer
 done = False  # Dictates if the timer is done (at 00:00) or not.
 sound_flag = True  # Sound on/off toggle flag
+on_break = False  # Dictates whether or not the use is on a 10/5 min break
 sfx = sa.WaveObject.from_wave_file("resources/boop.wav")  # Boop sfx
 
 # FUNCTION DEFINITIONS #
@@ -49,6 +50,7 @@ def start(minutes, seconds, flavor_text):
 def countdown(minutes, seconds, flavor_text):
     global done
     global sfx
+    global on_break
     # Does the actual math behind the timer
 
     if minutes > 0 or seconds > 0:  # If we're not at 00:00, i.e. not done
@@ -61,6 +63,7 @@ def countdown(minutes, seconds, flavor_text):
             minutes -= 1
     else:  # 00:00. Timer done!
         done = True
+        on_break = False
         flavor_text.config(text="boop boop!")
         if sound_flag:
             sfx.play()
@@ -72,26 +75,36 @@ def countdown(minutes, seconds, flavor_text):
 
 def start_caller(minutes, seconds, flavor_text):
     global done
+    global five_button
+    global ten_button
     # This calls the start function, but first disables the start button
     # After it has been pressed.
 
     pause_button.configure(state=tk.NORMAL)
     flavor_text.config(text="running...")
+    if on_break:
+        flavor_text.config(text="on a break - take your time...")
     start_button.configure(state=tk.DISABLED)
+    five_button.configure(state=tk.DISABLED)
+    ten_button.configure(state=tk.DISABLED)
     reset_button.configure(state=tk.NORMAL)
 
     done = False
     start(minutes, seconds, flavor_text)
 
 
-def reset_buttons_return(start_button):
-    # Returns the start button to clickable after a reset. Must only be available after one second has passed.
+def reset_buttons_return():
+    # Returns the start buttons to clickable after a reset. Must only be available after one second has passed.
 
+    five_button.configure(state=tk.NORMAL)
+    ten_button.configure(state=tk.NORMAL)
     start_button.configure(state=tk.NORMAL)
 
 
 def reset(flavor_text):
     global done
+    global on_break
+
     # Activates upon press of the Reset button.
 
     # Flavor text:
@@ -101,6 +114,7 @@ def reset(flavor_text):
     # Resetting values:
 
     done = True
+    on_break = False
     minutes = start_minutes
     timer_display_resetter(minutes)
 
@@ -112,7 +126,7 @@ def reset(flavor_text):
 
     # Wait before letting start be clickable, so that we don't have two timers at the same time:
 
-    root.after(1000, reset_buttons_return, start_button) 
+    root.after(1000, reset_buttons_return)
 
 
 def pause_click(flavor_text):
@@ -174,12 +188,26 @@ def toggle_sound():
         sound_flag = True
 
 
-def five_min_break(flavor_text):
-    flavor_text.config(text='WIP Functionality')
+def five_min_break(flavor_text, timer_text):
+    global on_break
+
+    flavor_text.config(text="on a break - take your time...")
+    timer_text.config(text='05:00')
+    five_button.configure(state=tk.DISABLED)
+    ten_button.configure(state=tk.DISABLED)
+    on_break = True
+    start_caller(5, 0, flavor_text)
 
 
-def ten_min_break(flavor_text):
-    flavor_text.config(text='WIP Functionality')
+def ten_min_break(flavor_text, timer_text):
+    global on_break
+
+    flavor_text.config(text="on a break - take your time...")
+    timer_text.config(text='10:00')
+    five_button.configure(state=tk.DISABLED)
+    ten_button.configure(state=tk.DISABLED)
+    on_break = True
+    start_caller(10, 0, flavor_text)
 
 
 # MAIN #:
@@ -214,9 +242,9 @@ sound_button = tk.Button(root, text="", image=sound_icon, command=(
 info_button = tk.Button(root, text="", image=info_icon, command=(
     lambda: info.open_info_window()))
 ten_button = tk.Button(root, text="", image=tenicon, command=(
-    lambda: ten_min_break(flavor_text)))
+    lambda: ten_min_break(flavor_text, timer_text)))
 five_button = tk.Button(root, text="", image=fiveicon, command=(
-    lambda: five_min_break(flavor_text)))
+    lambda: five_min_break(flavor_text, timer_text)))
 
 #  Placing the buttons:
 
