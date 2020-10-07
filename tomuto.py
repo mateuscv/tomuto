@@ -77,6 +77,7 @@ def start_caller(minutes, seconds, flavor_text):
     global done
     global five_button
     global ten_button
+    global reset_button
     # This calls the start function, but first disables the start button
     # After it has been pressed.
 
@@ -101,7 +102,7 @@ def reset_buttons_return():
     start_button.configure(state=tk.NORMAL)
 
 
-def reset(flavor_text):
+def reset(flavor_text, timer_text):
     global done
     global on_break
 
@@ -116,7 +117,7 @@ def reset(flavor_text):
     done = True
     on_break = False
     minutes = start_minutes
-    timer_display_resetter(minutes)
+    timer_display_resetter(minutes, timer_text)
 
     # Configuring start/pause button:
 
@@ -132,8 +133,8 @@ def reset(flavor_text):
 def pause_click(flavor_text):
     # Activates on click of the pause button. handles pausing
 
-    minutes, seconds = get_time()  # Now, getting the time that is currently 
-    # showing...
+    minutes, seconds = get_time()  # Now, getting the time that is currently showing...
+
     paused = pause(flavor_text)
     if not paused:
         start_caller(minutes, seconds, flavor_text)
@@ -170,7 +171,7 @@ def get_time():
     return minutes, seconds
 
 
-def timer_display_resetter(minutes):
+def timer_display_resetter(minutes, timer_text):
     # Resets the display to start minutes value when reset is pressed.
 
     timer_text.config(text=str(minutes) + ":" + "00")
@@ -234,7 +235,7 @@ sound_icon, no_sound_icon, info_icon, tenicon, fiveicon = wc.get_icons()
 start_button = tk.Button(root, text="Start", command=(lambda: start_caller(
     minutes, seconds, flavor_text)))
 reset_button = tk.Button(root, text="Reset", command=(lambda: reset(
-    flavor_text)))
+    flavor_text, timer_text)))
 pause_button = tk.Button(root, text="Pause", command=(lambda: pause_click(
     flavor_text)))
 sound_button = tk.Button(root, text="", image=sound_icon, command=(
