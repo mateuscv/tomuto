@@ -12,7 +12,7 @@ def config_window(root):
     root.geometry("300x100+" + str(int(x)) + "+" + str(int(y)))
     root.title("tomuto")
     root.iconbitmap("resources/icon.ico")
-    root.resizable(0,0)  # Remove this if you want tomuto resizable.
+    root.resizable(0, 0)  # Remove this if you want tomuto resizable.
 
     # Window text
 
@@ -36,7 +36,7 @@ def get_icons():
 
 
 def place_buttons(start_button, reset_button, pause_button, sound_button,
- info_button, ten_button, five_button):
+                  info_button, ten_button, five_button):
     # Initial button placements
 
     start_button.place(relx=0.5, rely=0.77, anchor="center")
