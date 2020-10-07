@@ -3,15 +3,15 @@ import simpleaudio as sa
 import win_config as wc
 import info
 
-#### GLOBAL VARIABLES ####
+# GLOBAL VARIABLES #
 
-start_minutes = 25 # Change here if you want a different number of minutes 
+start_minutes = 25  # Change here if you want a different number of minutes
 # for the timer
-done = False # Dictates if the timer is done (at 00:00) or not.
-sound_flag = True # Sound on/off toggle flag
-sfx = sa.WaveObject.from_wave_file("resources/boop.wav") # Boop sfx
+done = False  # Dictates if the timer is done (at 00:00) or not.
+sound_flag = True  # Sound on/off toggle flag
+sfx = sa.WaveObject.from_wave_file("resources/boop.wav")  # Boop sfx
 
-#### FUNCTION DEFINITIONS ####
+# FUNCTION DEFINITIONS #
 
 
 def prefix_zero(seconds):
@@ -51,8 +51,8 @@ def countdown(minutes, seconds, flavor_text):
     global sfx
     # Does the actual math behind the timer
 
-    if (minutes > 0 or seconds > 0): # If we're not at 00:00, i.e. not done
-        if minutes == start_minutes and seconds == 60: # fresh start
+    if minutes > 0 or seconds > 0:  # If we're not at 00:00, i.e. not done
+        if minutes == start_minutes and seconds == 60:  # fresh start
             minutes -= 1
         if seconds > 0:  # Normal seconds countdown during a minute
             seconds -= 1
@@ -85,6 +85,8 @@ def start_caller(minutes, seconds, flavor_text):
 
 
 def reset_buttons_return(start_button):
+    # Returns the start button to clickable after a reset. Must only be available after one second has passed.
+
     start_button.configure(state=tk.NORMAL)
 
 
@@ -100,8 +102,7 @@ def reset(flavor_text):
 
     done = True
     minutes = start_minutes
-    seconds = 60
-    timer_displayResetter(minutes, seconds)
+    timer_display_resetter(minutes)
 
     # Configuring start/pause button:
 
@@ -109,7 +110,7 @@ def reset(flavor_text):
     pause_button.place(relx=0.35, rely=0.77, anchor="center")
     pause_button.configure(state=tk.DISABLED)
 
-    # wait before letting start so we don't have two timers at the same time:
+    # Wait before letting start be clickable, so that we don't have two timers at the same time:
 
     root.after(1000, reset_buttons_return, start_button) 
 
@@ -118,7 +119,7 @@ def pause_click(flavor_text):
     # Activates on click of the pause button. handles pausing
 
     minutes, seconds = get_time()  # Now, getting the time that is currently 
-    #showing...
+    # showing...
     paused = pause(flavor_text)
     if not paused:
         start_caller(minutes, seconds, flavor_text)
@@ -148,20 +149,20 @@ def get_time():
     # Gets the currently showing time in integers for both minutes and 
     # seconds 
 
-    separatorIndex = timer_text["text"].index(":")
-    minutes = int(timer_text["text"][:separatorIndex])
-    seconds = int(timer_text["text"][separatorIndex+1:])
+    separator_index = timer_text["text"].index(":")
+    minutes = int(timer_text["text"][:separator_index])
+    seconds = int(timer_text["text"][separator_index+1:])
     
     return minutes, seconds
 
 
-def timer_displayResetter(minutes, seconds):
+def timer_display_resetter(minutes):
     # Resets the display to start minutes value when reset is pressed.
 
     timer_text.config(text=str(minutes) + ":" + "00")
 
 
-def toggleSound():
+def toggle_sound():
     global sound_flag
     # Toggles sound on or off when the button is pressed
 
@@ -181,18 +182,18 @@ def ten_min_break(flavor_text):
     flavor_text.config(text='WIP Functionality')
 
 
-#### MAIN ####:
+# MAIN #:
 
 root = tk.Tk()  # Starting up the Tkinter window
 flavor_text = wc.config_window(root)  # Apply window settings
 
 # Initial timer...:
 
-#...values:
+# ...values:
 minutes = start_minutes
 seconds = 60
 
-#...display:
+# ...display:
 
 timer_text = tk.Label(text=str(minutes) + ":" + "00") 
 timer_text.config(font=("Verdana", 20))
@@ -202,23 +203,26 @@ timer_text.pack()
 
 sound_icon, no_sound_icon, info_icon, tenicon, fiveicon = wc.get_icons()
 
-start_button = tk.Button(root, text="Start", command=(lambda:start_caller(
+start_button = tk.Button(root, text="Start", command=(lambda: start_caller(
     minutes, seconds, flavor_text)))
-reset_button = tk.Button(root, text="Reset", command=(lambda:reset(
+reset_button = tk.Button(root, text="Reset", command=(lambda: reset(
     flavor_text)))
-pause_button = tk.Button(root, text="Pause", command=(lambda:pause_click(
+pause_button = tk.Button(root, text="Pause", command=(lambda: pause_click(
     flavor_text)))
 sound_button = tk.Button(root, text="", image=sound_icon, command=(
-    lambda:toggleSound()))
+    lambda: toggle_sound()))
 info_button = tk.Button(root, text="", image=info_icon, command=(
-    lambda:info.open_info_window()))
+    lambda: info.open_info_window()))
 ten_button = tk.Button(root, text="", image=tenicon, command=(
-    lambda:ten_min_break(flavor_text)))
+    lambda: ten_min_break(flavor_text)))
 five_button = tk.Button(root, text="", image=fiveicon, command=(
-    lambda:five_min_break(flavor_text)))
+    lambda: five_min_break(flavor_text)))
 
-wc.place_buttons(start_button, reset_button, pause_button, sound_button,
- info_button, ten_button, five_button) #  Place the buttons
+#  Placing the buttons:
+
+wc.place_buttons(start_button, reset_button, pause_button, sound_button, info_button, ten_button, five_button)
+
+# The pause button needs to start disabled:
 
 pause_button.configure(state=tk.DISABLED)
 
