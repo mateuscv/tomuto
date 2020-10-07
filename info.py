@@ -15,7 +15,7 @@ def open_info_window():
     x = (screen_width/2) - (300/2)
     y = (screen_height/2) - (100/2)
     tomuto_info.geometry("270x165+" + str(int(x-50)) + "+" + str(int(y)-40))
-    tomuto_info.resizable(0,0)
+    tomuto_info.resizable(0, 0)
 
     # Widgets
 
@@ -24,7 +24,7 @@ def open_info_window():
     tomuto_name.pack()
 
     description = tk.Label(tomuto_info, text='open source tomato timer')
-    description.pack(pady=(0,10))
+    description.pack(pady=(0, 10))
 
     github = tk.Label(tomuto_info, text="More info and source code:")
     github.pack()
@@ -33,10 +33,10 @@ def open_info_window():
     link.bind("<Button-1>", lambda l: callback("https://github.com/mateuscv/tomuto"))
 
     original_developer = tk.Label(tomuto_info, text="Created with ♥ by Mateus Cappellari Vieira")
-    original_developer.pack(pady=(10,0))
+    original_developer.pack(pady=(10, 0))
 
     version = tk.Label(tomuto_info, text='development build 0.9.1')
-    version.pack(pady=(1,0))
+    version.pack(pady=(1, 0))
     version.config(font=("Verdana", 8), fg='gray')
 
 
@@ -44,4 +44,3 @@ def callback(url):
     # Opens the github link
 
     webbrowser.open_new(url)
-
