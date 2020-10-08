@@ -62,6 +62,7 @@ def countdown(minutes, seconds, flavor_text):
             seconds = 59
             minutes -= 1
     else:  # 00:00. Timer done!
+        pause_button.configure(state=tk.DISABLED)
         done = True
         on_break = False
         flavor_text.config(text="boop boop!")
