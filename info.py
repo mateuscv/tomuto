@@ -35,7 +35,7 @@ def open_info_window():
     original_developer = tk.Label(tomuto_info, text="Created with ♥ by Mateus Cappellari Vieira")
     original_developer.pack(pady=(10, 0))
 
-    version = tk.Label(tomuto_info, text='v1.0.0 Release Candidate')
+    version = tk.Label(tomuto_info, text='v1.0.0')
     version.pack(pady=(1, 0))
     version.config(font=("Verdana", 8), fg='gray')
 
