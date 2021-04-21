@@ -18,3 +18,5 @@ Feel free to contribute! ฅʕ•̫͡•ʔฅ
 tomuto is a free tool that can be used with the Pomodoro Technique®. Pomodoro Technique® and Pomodoro® are registered and filed trademarks owned by Francesco Cirillo. tomuto is not affiliated by, associated with nor endorsed by Francesco Cirillo. <br>
 
 Francesco Cirillo offers a comprehensive website where you can read all about the technique and get official books, courses and software. Check it out at: https://www.pomodorotechnique.com/
+
+<a href='https://ko-fi.com/A0A74DCUL' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
